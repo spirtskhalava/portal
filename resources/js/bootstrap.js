@@ -1,0 +1,46 @@
+window.$ = window.Jquery = require("jquery");
+require("popper.js");
+require("bootstrap");
+window._ = require("lodash");
+require("./vendor/fontawesome.js");
+window.tail = require("tail.select");
+require('jszip');
+require('datatables.net-dt');
+require('datatables.net-buttons-dt');
+require('datatables.net-buttons/js/buttons.html5.js');
+require('datatables.net-responsive-dt');
+require("js-loading-overlay");
+require("./../../public/js/dataTables.colReorder.min");
+window.lang = document.getElementsByTagName("html")[0].getAttribute("lang");
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+window.axios = require("axios");
+
+//window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+var token = document.head.querySelector('meta[name="csrf-token"]');
+window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
+// window.axios.defaults.headers.common = {
+//     'X-Requested-With': 'XMLHttpRequest',
+//     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+// };
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+// import Echo from 'laravel-echo';
+
+// window.Pusher = require('pusher-js');
+
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     forceTLS: true
+// });
