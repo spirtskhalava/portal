@@ -75,11 +75,20 @@ function localized_url($locale, $url = null)
         </button>
       </a> 
       @endif
+      @if(Config::get('app.locale')=='ka')
         <button type="button" style="padding: 0.25rem 0.5rem;"
           class="btn btn-outline-primary btn-sm modalbtn btn-action" data-toggle="modal"
           data-target="#exampleModalCenter">
           <i class="fas fa-info"></i>
         </button>
+        @else
+        <a href="http://ex-trade.geostat.ge/FTrade%20portal_description_ENG.pdf">
+        <button type="button" style="padding: 0.25rem 0.5rem;"
+          class="btn btn-outline-primary btn-sm modalbtn btn-action">
+          <i class="fas fa-info"></i>
+        </button>
+      </a>
+      @endif
         <div class="mediaWrapper" style="display: inline-block; margin-right: 10px;margin-left: -15px;">
           <a href="https://www.facebook.com/sharer/sharer.php?u={{localized_url(Config::get('app.locale'), request()->url())}}"
             onclick="window.open(this.href, 'facebook-share-dialog','left=20,top=20,width=450,height=503,toolbar=1,resizable=0'); return false;">
@@ -166,11 +175,6 @@ function localized_url($locale, $url = null)
   <div class="ml-4" id="">
     <div class="sticky-container">
       <ul class="sticky">
-        <a href="../{{  Config::get('app.locale') }}/map">
-          <li data-toggle="tooltip" data-placement="left" title="{{ __('messages.atlas') }}">
-            <img src="{{asset('/images/atlas.svg') }}" width="32" height="32">
-          </li>
-        </a>
         <a href="{{ __('messages.link1') }}" target="_blank">
           <li data-toggle="tooltip" data-placement="left" title="{{ __('messages.icons') }}">
             <img src="{{asset('/images/classifications.svg') }}" width="32" height="32">

@@ -17,7 +17,8 @@ export default {
     grp: 'Country Group',
     flow: 'Trade Flows',
     unit: 'Unit',
-    
+    bec: 'BEC',
+    sitc: 'SITC',
 
 
     usaDollar: '1000 US Dollar',

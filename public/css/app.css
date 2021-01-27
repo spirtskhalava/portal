@@ -579,7 +579,7 @@ body {
 
 @media screen and (max-width: 1440px) {
   .tail-select .select-label .label-inner {
-    font-size: 9px !important;
+    font-size: 8px !important;
   }
 
   .kaSubFont {

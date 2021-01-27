@@ -971,6 +971,8 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -978,8 +980,6 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -1009,7 +1009,7 @@ $.extend($.expr[':'], {
   }
 });
 document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-  var stopAllYouTubeVideos, all, world, segments, importMap, mapConst, cbclick, currencyFormatDE, currencyFormat, currencyFormatTwo, logSubmit, instance, yearValue, costValue, checkIDs, selectsInstance, groupSelector, len, tailSelect, clientHeight, resize, ToDisable, renderSelect, clearSelect, showLoader, hideLoader, activeSelect, activeOrDisabledChekbox, nestedChekbox, checkboxses, checkboxsesFirstTab, thousands_separators, mystr, clicked, resData, groupParamsByKey, changeTypeOption, submitBtn, form, formData, SearchParams, entries, params, chkMonth, arraofids, addIDs, checkDropdownID, arrToAdd, dropdownNames, addChildren, removeChildren, items, getDropdownByName, DisableYear, hssTitle, selectsData, renderSelects, getFirstDigit, getAllHSData, getHSData, isHs2Changed, isHs4Changed, isHs6Changed, arrToCheck, itemKey, selected, reg, isHs4Check, isHs6Check, sitcGroup, sitcGroup2, countryArr, getAllCountries, getCountry;
+  var stopAllYouTubeVideos, all, world, segments, importMap, mapConst, cbclick, currencyFormatDE, currencyFormat, currencyFormatTwo, logSubmit, instance, checkIDs, selectsInstance, groupSelector, len, tailSelect, clientHeight, resize, ToDisable, renderSelect, clearSelect, showLoader, hideLoader, activeSelect, activeOrDisabledChekbox, nestedChekbox, checkboxses, checkboxsesFirstTab, thousands_separators, mystr, clicked, resData, groupParamsByKey, changeTypeOption, submitBtn, form, formData, SearchParams, entries, params, chkMonth, arraofids, addIDs, checkDropdownID, arrToAdd, dropdownNames, addChildren, removeChildren, items, getDropdownByName, DisableYear, hssTitle, selectsData, renderSelects, getFirstDigit, getAllHSData, getHSData, isHs2Changed, isHs4Changed, isHs6Changed, arrToCheck, itemKey, selected, reg, isHs4Check, isHs6Check, sitcGroup, sitcGroup2, countryArr, getAllCountries, getCountry;
   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
@@ -1050,7 +1050,7 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
           //console.log('mapConst', mapConst)
           //console.log('axsios', axios)
 
-          _context3.next = 122;
+          _context3.next = 120;
           break;
 
         case 14:
@@ -1107,8 +1107,6 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
           };
 
           instance = [];
-          yearValue = document.getElementById("year").value;
-          costValue = document.getElementById("cost").value;
           checkIDs = ["flow", "year", "quarter", "month", "hssec", "hs2", "hs4", "hs6", "bec", "sitc", "country", "transout", "cost", "grp", "parameters"];
           selectsInstance = {};
           groupSelector = document.getElementById("grp");
@@ -1133,13 +1131,9 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
             var sitc = id == "sitc" ? true : false;
             var parameters = id == "parameters" ? true : false;
             instance[id] = tail("#" + id, {
-              // !isType &&
-              //     !isCost &&
-              //     !isYear &&
-              //     !isQuarter && !isCountry
               multiPinSelected: true,
-              multiSelectAll: true,
-              multiple: isType ? false : true,
+              multiSelectAll: !parameters ? true : false,
+              multiple: !isType && !parameters ? true : false,
               deselect: true,
               placeholder: '',
               search: !isType && !isGrp && !isCost && !isYear && !isQuarter && !isMonth && !parameters ? true : false,
@@ -1315,8 +1309,6 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
 
           resData = function resData(params, ifParams) {
             var sumCheck = document.getElementById('sumval');
-            var monthtitle = document.getElementById('monthtitle');
-            var quartertitle = document.getElementById('quartertitle');
             var marker = document.getElementById('marker');
             var style = 'none';
             marker.style.display = "none";
@@ -1328,14 +1320,29 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
                 var regKey = key.replace(/[\W_]+/g, "");
                 previous[regKey] = ifParams[key];
                 return previous;
-              }, {}); //console.log('regParams', regParams);
-              //if (regParams.grp && !regParams.country) {
-              //regParams.country = true;
-              //}
-
+              }, {});
+              var items = {};
               var data = response.data;
-              var htmlData = data.data;
-              console.log(data);
+              var htmlData = data.data; //var newarr=htmlData.filter(o => o.year == 2019);
+              // var newArr =  htmlData.map(function(val,index){ 
+              //     console.log("val", val);
+              //    return htmlData.filter(val => val.year ==2019); 
+              // }) 
+
+              for (var t = 0; t < htmlData.length; t++) {
+                items[htmlData[t].year] = htmlData[t].usd1000total;
+              }
+
+              console.log("items", items);
+
+              var filterByYear = function filterByYear(obj, y) {
+                var newArr;
+                newArr = obj.filter(function (o) {
+                  return o.year == y;
+                });
+                return '<td>' + newArr[0].usd1000total + '</td>';
+              };
+
               var tablelang = lang == 'ka' ? 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Georgian.json' : 'http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
               var align, rowWidth, rowBreak, suppStyle, tonsStyle, exportLang, stringTitle;
               lang == 'ka' ? stringTitle = 'მონაცემები ტრანსპორტირების სახეების მიხედვით ხელმისაწვდომია 2016 წლიდან.' : stringTitle = 'მონაცემები ტრანსპორტირების სახეების მიხედვით ხელმისაწვდომია 2016 წლიდან.';
@@ -1381,21 +1388,31 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
                     }
                   }
 
-                  if (key !== 'type_name' && regParams[key] !== undefined || key === "usd1000total" || key === "tonstotal") {
-                    if (key == 'transout' && $('#transout :selected').text() !== '') {
-                      html += '<th style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass"  title="' + stringTitle + '"></i></th>';
-                    } else {
-                      html += '<th style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
+                  if (key !== 'month' && key !== 'quarter') {
+                    if (key !== 'type_name' && regParams[key] !== undefined || key === "usd1000total" || key === "tonstotal") {
+                      if (key == 'transout' && $('#transout :selected').text() !== '') {
+                        html += '<th style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass"  title="' + stringTitle + '"></i></th>';
+                      } else {
+                        if (key == 'year') {
+                          for (var _i = 0, _Object$entries = Object.entries(items); _i < _Object$entries.length; _i++) {
+                            var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+                                _key = _Object$entries$_i[0],
+                                value = _Object$entries$_i[1];
+
+                            html += '<th style="text-align:' + align + ';">' + _key + '</th>';
+                          }
+                        } else {
+                          html += '<th style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
+                        }
+                      }
+                    } else if (key == 'supputotal') {
+                      html += '<th id="suppu" style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
+                      html += '<th id="" style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, 'unit') + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
                     }
-                  } else if (key == 'supputotal') {
-                    html += '<th id="suppu" style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
-                    html += '<th id="" style="text-align:' + align + ';">' + Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, 'unit') + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
                   }
                 });
                 html += '</tr>';
                 html += '</thead>';
-                var name;
-                var sum = 0;
                 html += '<tbody>';
                 htmlData.forEach(function (value, key) {
                   html += '<tr>';
@@ -1423,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
                       align = 'right';
                     }
 
-                    if (nKey !== 'type_name' && regParams[nKey] !== undefined || nKey == 'supputotal' || nKey === "usd1000total" || nKey === "tonstotal") {
+                    if (nKey !== 'type_name' && regParams[nKey] !== undefined && nKey !== 'month' && nKey !== 'quarter' || nKey == 'supputotal' || nKey === "usd1000total" || nKey === "tonstotal") {
                       if (nKey == 'usd1000total') {
                         html += '<td style="text-align:' + align + ';width:' + rowWidth + ';">' + currencyFormat(value[nKey]) + '</td>';
                       } else if (nKey == 'supputotal') {
@@ -1445,7 +1462,17 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
                           document.getElementById("addTxt").style.display = "none";
                         }
 
-                        html += '<td style="text-align:' + align + ';width:' + rowWidth + ';word-break:' + rowBreak + ';">' + value[nKey] + '</td>';
+                        if (nKey = 'year') {
+                          for (var _i2 = 0, _Object$entries2 = Object.entries(items); _i2 < _Object$entries2.length; _i2++) {
+                            var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+                                Skey = _Object$entries2$_i[0],
+                                Svalue = _Object$entries2$_i[1];
+
+                            html += '<td style="text-align:' + align + ';>' + Svalue + '</td>';
+                          }
+                        } else {
+                          html += '<td style="text-align:' + align + ';width:' + rowWidth + ';word-break:' + rowBreak + ';">' + value[nKey] + '</td>';
+                        }
                       }
                     }
                   });
@@ -1471,7 +1498,6 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
                   exportOptions: {
                     format: {
                       body: function body(data, row, column, node) {
-                        // Strip $ from salary column to make it numeric
                         var regExp = new RegExp('([0-9.+])(,)([0-9.+])', 'g');
 
                         if (data.match(regExp)) {
@@ -1616,22 +1642,28 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
             });
           });
           instance["parameters"].on('open', function (item, state) {
-            var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner > .dropdown-action");
+            var fooStyle = document.querySelector("#groups > .tail-select > .select-dropdown");
+            fooStyle.style.maxHeight = "";
+            var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner");
             var node = document.createElement("div");
             var textnode = document.createTextNode(Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, "close"));
             node.appendChild(textnode);
             node.classList.add('mybtn');
-            fooEls.appendChild(node);
-            fooEls.addEventListener('click', function (e) {
-              instance["parameters"].close("true");
-            });
+            fooEls.before(node);
+            var fooBtn = document.querySelector("#groups > .tail-select > .select-dropdown > .mybtn");
+
+            if (fooBtn) {
+              fooBtn.addEventListener('click', function (e) {
+                instance["parameters"].close("true");
+              });
+            }
           });
           instance["parameters"].on('close', function (item, state) {
-            var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner > .dropdown-action > .mybtn");
+            var fooEls = document.querySelector("#groups .mybtn");
             fooEls.remove();
           });
           arrToAdd = ['year', 'quarter', 'month', 'cost', 'country', 'grp', 'transout', 'hssec', 'hs2', 'hs4', 'hs6', 'bec', 'sitc'];
-          dropdownNames = ["flow", "year", "quarter", "hssec", "month", "cost", "hs2", "hs4", "hs6", "bec", "sitc", "country", "grp", "transout"];
+          dropdownNames = ['flow', 'year', 'quarter', 'month', 'cost', 'country', 'grp', 'transout', 'hssec', 'hs2', 'hs4', 'hs6', 'bec', 'sitc'];
 
           addChildren = function addChildren() {
             var node = document.createElement("div");
@@ -1690,15 +1722,19 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
 
               names.onchange = function (e) {
                 el = e.currentTarget.id;
-                items[el] = Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, el);
-                instance["parameters"].config("disabled", false);
-                instance["parameters"].config("items", items);
+                instance[el].on('change', function (item, state) {
+                  if (state == 'select') {
+                    items[el] = Object(_helper__WEBPACK_IMPORTED_MODULE_1__["translate"])(lang, el);
+                    instance["parameters"].config("disabled", false);
+                    instance["parameters"].config("items", items);
 
-                if (instance["parameters"]) {
-                  if ($('#flow :selected').val() == 'DE' || $('#flow :selected').val() == 'RE') {
-                    instance["parameters"].options.remove("year", "#", true);
+                    if (instance["parameters"]) {
+                      if ($('#flow :selected').val() == 'DE' || $('#flow :selected').val() == 'RE') {
+                        instance["parameters"].options.remove("year", "#", true);
+                      }
+                    }
                   }
-                }
+                });
               };
             });
           };
@@ -1851,10 +1887,10 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
             };
           }();
 
-          _context3.next = 97;
+          _context3.next = 95;
           return renderSelects('grp', 'CountryGroup', 'name');
 
-        case 97:
+        case 95:
           getFirstDigit = function getFirstDigit(x) {
             while (x > 9) {
               x /= 10;
@@ -2142,7 +2178,7 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator( /*
             }
           });
 
-        case 122:
+        case 120:
         case "end":
           return _context3.stop();
       }
@@ -2212,6 +2248,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   grp: 'Country Group',
   flow: 'Trade Flows',
   unit: 'Unit',
+  bec: 'BEC',
+  sitc: 'SITC',
   usaDollar: '1000 US Dollar'
 }, _defineProperty(_year$usd1000total$to, "year", ' Year '), _defineProperty(_year$usd1000total$to, "export", 'Export'), _defineProperty(_year$usd1000total$to, "quarter", 'Quarter'), _defineProperty(_year$usd1000total$to, "month", 'Month'), _defineProperty(_year$usd1000total$to, "MultipleValues", 'Multiple Values'), _defineProperty(_year$usd1000total$to, "select", 'Select'), _defineProperty(_year$usd1000total$to, "close", 'Close'), _defineProperty(_year$usd1000total$to, "choose", 'Multiple select'), _defineProperty(_year$usd1000total$to, "MultipleValuesChoose", 'All Values'), _defineProperty(_year$usd1000total$to, "sum", 'Sum'), _year$usd1000total$to); //const monthEn;
 
@@ -2297,6 +2335,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   grp: 'ქვეყნის ჯგუფი',
   flow: 'სავაჭრო ნაკადები',
   unit: 'ერთეული',
+  bec: 'BEC',
+  sitc: 'SITC',
   usaDollar: '1000 აშშ დოლარი'
 }, _defineProperty(_year$usd1000total$to, "year", ' წელი '), _defineProperty(_year$usd1000total$to, "export", 'ექსპორტი'), _defineProperty(_year$usd1000total$to, "quarter", 'კვარტალი'), _defineProperty(_year$usd1000total$to, "month", 'თვე'), _defineProperty(_year$usd1000total$to, "MultipleValues", 'მონიშნულია რამდენიმე'), _defineProperty(_year$usd1000total$to, "select", 'აირჩიეთ'), _defineProperty(_year$usd1000total$to, "close", 'დახურვა'), _defineProperty(_year$usd1000total$to, "choose", 'არჩეულია რამდენიმე'), _defineProperty(_year$usd1000total$to, "MultipleValuesChoose", 'მონიშნულია ყველა'), _defineProperty(_year$usd1000total$to, "sum", 'ჯამი'), _year$usd1000total$to); //monthKa
 

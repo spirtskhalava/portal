@@ -17,6 +17,8 @@ export default {
     grp: 'ქვეყნის ჯგუფი',
     flow: 'სავაჭრო ნაკადები',
     unit: 'ერთეული',
+    bec: 'BEC',
+    sitc: 'SITC',
 
     usaDollar: '1000 აშშ დოლარი',
     year: ' წელი ',

@@ -52,7 +52,7 @@
                             <select multiple id="year" name="year[]">
                                 @foreach($year as $singley)
                                 @if($singley->val==now()->year)
-                                <option value="{{$singley->val}}" selected>{{$singley->year }}
+                                <option value="{{$singley->val}}" selected>{{$singley->year}}
                                 </option>
                                 @else
                                 <option value="{{$singley->val}}">{{$singley->year }}
@@ -216,7 +216,8 @@
                         <div class="item1">
                             <div style=" text-align: left !important;">
                                 <span class="lab ml-3 {{ __('messages.subfont') }}">
-                                    <i class="fas fa-info-circle"></i> {{ __('messages.groupparameter') }}
+                                    {{-- <i class="fas fa-info-circle"></i>  --}}
+                                    {{ __('messages.groupparameter') }}
                                 </span>
                             </div>
                         </div>

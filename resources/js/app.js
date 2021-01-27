@@ -54,10 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         
         var instance = [];
-
-
-        let yearValue = document.getElementById("year").value;
-        let costValue = document.getElementById("cost").value;
         let checkIDs = [
             "flow",
             "year",
@@ -100,13 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             var sitc = id == "sitc" ? true : false;
             var parameters = id == "parameters" ? true : false;
             instance[id] = tail("#"+id,{
-                // !isType &&
-                //     !isCost &&
-                //     !isYear &&
-                //     !isQuarter && !isCountry
                 multiPinSelected:true,
-                multiSelectAll:true,
-            multiple: isType ? false : true,
+                multiSelectAll:!parameters ? true : false,
+            multiple: !isType && !parameters ? true : false,
             deselect: true,
             placeholder: '',
             search:
@@ -344,9 +336,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return num.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         }
         const resData = (params, ifParams) => {
-            let sumCheck = document.getElementById('sumval');
-            let monthtitle = document.getElementById('monthtitle');
-            let quartertitle = document.getElementById('quartertitle');
+            let sumCheck = document.getElementById('sumval'); 
             let marker = document.getElementById('marker');
             var style = 'none';
             marker.style.display = "none";
@@ -356,21 +346,34 @@ document.addEventListener("DOMContentLoaded", async () => {
                     lang
                 })
                 .then(response => {
+                    
                     var regParams = Object.keys(ifParams).reduce(function (previous, key) {
                         var regKey = key.replace(/[\W_]+/g, "");
-                        previous[regKey] = ifParams[key]
+                        previous[regKey] = ifParams[key];
                         return previous;
                     }, {});
 
-                    //console.log('regParams', regParams);
-
-                    //if (regParams.grp && !regParams.country) {
-                    //regParams.country = true;
-                    //}
-
+                   let items={};
                     let data = response.data;
                     let htmlData = data.data;
-                    console.log(data)
+                    //var newarr=htmlData.filter(o => o.year == 2019);
+
+                    // var newArr =  htmlData.map(function(val,index){ 
+                    //     console.log("val", val);
+                    //    return htmlData.filter(val => val.year ==2019); 
+                    // }) 
+                    for(var t=0;t<htmlData.length;t++){
+                        items[htmlData[t].year] = htmlData[t].usd1000total;
+                    }
+                    console.log("items",items);
+                 
+                    const filterByYear = (obj,y) => { 
+                        var newArr;
+                        newArr=obj.filter(o => o.year == y);
+                            return '<td>'+newArr[0].usd1000total+'</td>';
+                       
+                        
+                    };
                     let tablelang = (lang == 'ka') ? 'https://cdn.datatables.net/plug-ins/1.10.20/i18n/Georgian.json' : 'http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json';
                     let align, rowWidth, rowBreak, suppStyle, tonsStyle, exportLang, stringTitle;
                     lang=='ka' ? stringTitle='მონაცემები ტრანსპორტირების სახეების მიხედვით ხელმისაწვდომია 2016 წლიდან.' :stringTitle='მონაცემები ტრანსპორტირების სახეების მიხედვით ხელმისაწვდომია 2016 წლიდან.';
@@ -386,6 +389,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         let html = '<thead>';
                         html += '<tr>';
                         Object.keys(htmlData[0]).forEach(function (key) {
+                        
                             if (key == 'grp') {
                                 marker.style.display = "block";
                             }
@@ -412,11 +416,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 }
 
                             }
+                            if(key!=='month' && key!=='quarter'){
                             if ((key !== 'type_name' && regParams[key] !== undefined) || (key === "usd1000total" || key === "tonstotal")) {
                                 if(key=='transout' && $('#transout :selected').text()!==''){
                                     html += '<th style="text-align:' + align + ';">' + translate(lang, key) + ' <i class="fas fa-info-circle hideClass"  title="'+stringTitle+'"></i></th>';
                                 }else{
+                                    if(key=='year'){
+                                        for (let [key, value] of Object.entries(items)) {
+                             
+                                            html += '<th style="text-align:' + align + ';">' + key+ '</th>';
+                                          }
+                                        
+                                    }else{
                                 html += '<th style="text-align:' + align + ';">' + translate(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
+                            }
                             }
                             } else if (key == 'supputotal') {
                                 html += '<th id="suppu" style="text-align:' + align + ';">' + translate(lang, key) + ' <i class="fas fa-info-circle hideClass" id="info" style="display:' + style + ';" title="' + mystr + '"></i></th>';
@@ -424,16 +437,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 
                             }
                              
+                        }
 
                         });
                         html += '</tr>';
                         html += '</thead>';
-                        let name;
-                        var sum = 0;
                         html += '<tbody>';
                         htmlData.forEach((value, key) => {
+                        
                             html += '<tr>';
                             Object.keys(value).forEach((nKey) => {
+                                
                                 nKey == 'month' ? rowWidth = '23%' : rowWidth = '';
                                 nKey == 'month' ? rowBreak = 'break-all' : rowBreak = '';
                                 if ($('#hs2 :selected').val() == 77 || $('#hs4 :selected').val() == 7700 || $('#hs6 :selected').val() == 770000) {
@@ -454,7 +468,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 } else if (nKey === "usd1000total" || nKey === "tonstotal" || nKey === "supputotal") {
                                     align = 'right';
                                 }
-                                if ((nKey !== 'type_name' && regParams[nKey] !== undefined) || nKey == 'supputotal' || (nKey === "usd1000total" || nKey === "tonstotal")) {
+                                if ((nKey !== 'type_name' && regParams[nKey] !== undefined && nKey!=='month' && nKey!=='quarter') || nKey == 'supputotal' || (nKey === "usd1000total" || nKey === "tonstotal")) {
                                     if (nKey == 'usd1000total') {
                                         html += '<td style="text-align:' + align + ';width:' + rowWidth + ';">' + currencyFormat(value[nKey]) + '</td>';
                                     } else if (nKey == 'supputotal') {
@@ -470,11 +484,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                                         }
                                     } else if (nKey == 'tonstotal') {
                                         html += '<td style="text-align:' + align + ';width:' + rowWidth + ';display:' + tonsStyle + ';">' + currencyFormat(value[nKey]) + '</td>';
-                                    } else {
+                                    }else {
                                         if (document.getElementById("addTxt")) {
                                             document.getElementById("addTxt").style.display = "none";
                                         }
+                                         if(nKey='year'){
+                                            for (let [Skey, Svalue] of Object.entries(items)) {
+                             
+                                                html += '<td style="text-align:' + align + ';>' + Svalue + '</td>';
+                                              }
+                                         }else{
                                         html += '<td style="text-align:' + align + ';width:' + rowWidth + ';word-break:' + rowBreak + ';">' + value[nKey] + '</td>';
+                                    }
                                     }
 
                                 }
@@ -504,9 +525,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 exportOptions: {
                                     format: {
                                         body: function (data, row, column, node) {
-                                            // Strip $ from salary column to make it numeric
-
-
                                             var regExp =
                                                 new RegExp('([0-9.+])(,)([0-9.+])', 'g');
 
@@ -626,6 +644,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         var arraofids=[
+
             'year',
             'quarter',
             'month',
@@ -691,20 +710,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       
       instance["parameters"].on('open', function (item, state) {
-      var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner > .dropdown-action");
+        
+      var fooStyle = document.querySelector("#groups > .tail-select > .select-dropdown");
+      fooStyle.style.maxHeight = "";
+      var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner");
       var node = document.createElement("div");
       var textnode = document.createTextNode(translate(lang, "close")); 
       node.appendChild(textnode);   
       node.classList.add('mybtn');
-      fooEls.appendChild(node);  
-      fooEls.addEventListener('click', function(e) {
+      fooEls.before(node);
+      var fooBtn = document.querySelector("#groups > .tail-select > .select-dropdown > .mybtn");
+      if(fooBtn){
+      fooBtn.addEventListener('click', function(e) {
         instance["parameters"].close("true");
         });
+    }
     });
        
     instance["parameters"].on('close', function (item, state) {
-        var fooEls = document.querySelector("#groups > .tail-select > .select-dropdown > .dropdown-inner > .dropdown-action > .mybtn");
+        var fooEls = document.querySelector("#groups .mybtn");
         fooEls.remove();
+
       });
         var arrToAdd=[
             'year',
@@ -722,21 +748,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             'sitc',
         ];
         let dropdownNames = [
-            "flow",
-            "year",
-            "quarter",
-            "hssec",
-            "month",
-            "cost",
-            "hs2",
-            "hs4",
-            "hs6",
-            "bec",
-            "sitc",
-            "country",
-            "grp",
-            "transout",
-           
+            'flow',
+            'year',
+            'quarter',
+            'month',
+            'cost',
+            'country',
+            'grp',
+            'transout',
+            'hssec',
+            'hs2',
+            'hs4',
+            'hs6',
+            'bec',
+            'sitc',
             
         ];
         const addChildren=()=>{
@@ -799,21 +824,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         var items = {};
         const getDropdownByName = () => {
-           
             var el;
-            
             dropdownNames.forEach(function(item) {
                var names = document.getElementById(item);
                names.onchange = function(e) {
                    el = e.currentTarget.id;
-                   items[el] = translate(lang, el);
-                   instance["parameters"].config("disabled",false);
-                   instance["parameters"].config("items",items);
-                   if( instance["parameters"]){
-                       if($('#flow :selected').val()=='DE' ||  $('#flow :selected').val()=='RE'){
-                    instance["parameters"].options.remove("year","#", true);
-                }
-                }
+                   instance[el].on('change', function(item, state) {
+                       if(state=='select'){
+                        items[el] = translate(lang, el);
+                        instance["parameters"].config("disabled",false);
+
+                         instance["parameters"].config("items",items);
+                        if( instance["parameters"]){
+                            if($('#flow :selected').val()=='DE' ||  $('#flow :selected').val()=='RE'){
+                         instance["parameters"].options.remove("year","#", true);
+                     }
+                     }
+                     }
+              
+                });
+                 
+               
                }
               
                
